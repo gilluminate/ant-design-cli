@@ -1,10 +1,22 @@
 import { describe, it, expect } from 'vitest';
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { run, runCLI } from './helper.js';
 
 describe('CLI', () => {
+  it('should show root help with the CLI version banner when no command is provided', async () => {
+    const out = await run();
+    expect(out).toMatch(/^▄▀██▄ █▀█▀/);
+    expect(out).toContain('█▀▀█  █');
+    expect(out).toMatch(/@ant-design\/cli v\d+\.\d+\.\d+[-\w.]*/);
+    expect(out).toContain('Usage: antd [options] [command]');
+  });
+
   it('should show help', async () => {
     const out = await run('--help');
+    expect(out).toMatch(/^▄▀██▄ █▀█▀/);
+    expect(out).toContain('█▀▀█  █');
+    expect(out).toMatch(/@ant-design\/cli v\d+\.\d+\.\d+[-\w.]*/);
     expect(out).toContain('antd');
     expect(out).toContain('list');
     expect(out).toContain('info');
@@ -14,6 +26,16 @@ describe('CLI', () => {
   it('should show CLI version with -V', async () => {
     const out = await run('-V');
     expect(out).toMatch(/^\d+\.\d+\.\d+[-\w.]*$/);
+    expect(out).not.toContain('ANT DESIGN');
+  });
+
+  it('should use only cfonts for the help banner dependency', () => {
+    const pkg = JSON.parse(readFileSync('package.json', 'utf-8')) as {
+      dependencies: Record<string, string>;
+    };
+    expect(pkg.dependencies).toHaveProperty('cfonts');
+    expect(pkg.dependencies).not.toHaveProperty('gradient-string');
+    expect(pkg.dependencies).not.toHaveProperty('chalk-animation');
   });
 
   it('should output error as JSON to stderr', async () => {

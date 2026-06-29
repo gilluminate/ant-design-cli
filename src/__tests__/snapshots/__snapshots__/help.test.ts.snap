@@ -1,7 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`help > --help 1`] = `
-"Usage: antd [options] [command]
+"▄▀██▄ █▀█▀
+█▀██ ▀█ █
+█▀▄█▀▀█▀▀██▀▀█▄ █
+█▄▀██▄▄▄███▄██ ▀█
+█▀▀█  █
+█▄▄█▄▄█
+
+@ant-design/cli v6.5.0
+
+
+Usage: antd [options] [command]
 
 CLI tool for querying antd knowledge and analyzing antd usage
 
